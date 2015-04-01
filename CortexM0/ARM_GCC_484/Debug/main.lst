@@ -1,0 +1,1109 @@
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"main.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	chanel_value
+  18              		.data
+  19              		.align	2
+  20              		.type	chanel_value, %object
+  21              		.size	chanel_value, 4
+  22              	chanel_value:
+  23 0000 DC05     		.short	1500
+  24 0002 DC05     		.short	1500
+  25              		.section	.text.run_motor,"ax",%progbits
+  26              		.align	2
+  27              		.global	run_motor
+  28              		.code	16
+  29              		.thumb_func
+  30              		.type	run_motor, %function
+  31              	run_motor:
+  32              	.LFB33:
+  33              		.file 1 ".\\main.c"
+   1:.\main.c      **** /* ========================================
+   2:.\main.c      ****  *
+   3:.\main.c      ****  * Copyright YOUR COMPANY, THE YEAR
+   4:.\main.c      ****  * All Rights Reserved
+   5:.\main.c      ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:.\main.c      ****  *
+   7:.\main.c      ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:.\main.c      ****  * WHICH IS THE PROPERTY OF your company.
+   9:.\main.c      ****  *
+  10:.\main.c      ****  * ========================================
+  11:.\main.c      **** */
+  12:.\main.c      **** #include <project.h>
+  13:.\main.c      **** #include <stdio.h> 
+  14:.\main.c      **** 
+  15:.\main.c      **** enum dir {forward = 0, backward};
+  16:.\main.c      **** enum mot {left = 0, right};
+  17:.\main.c      **** enum index {one = 0, two};
+  18:.\main.c      **** 
+  19:.\main.c      **** uint16 chanel_value[2] = {1500, 1500};
+  20:.\main.c      **** 
+  21:.\main.c      **** 
+  22:.\main.c      **** void run_motor(uint8 motor, uint8 input_value,  uint8 direction)
+  23:.\main.c      **** {
+  34              		.loc 1 23 0
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 2
+
+
+  35              		.cfi_startproc
+  36 0000 80B5     		push	{r7, lr}
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 82B0     		sub	sp, sp, #8
+  41              		.cfi_def_cfa_offset 16
+  42 0004 00AF     		add	r7, sp, #0
+  43              		.cfi_def_cfa_register 7
+  44 0006 FB1D     		add	r3, r7, #7
+  45 0008 1870     		strb	r0, [r3]
+  46 000a BB1D     		add	r3, r7, #6
+  47 000c 1970     		strb	r1, [r3]
+  48 000e 7B1D     		add	r3, r7, #5
+  49 0010 1A70     		strb	r2, [r3]
+  24:.\main.c      ****     if (motor == left)
+  50              		.loc 1 24 0
+  51 0012 FB1D     		add	r3, r7, #7
+  52 0014 1B78     		ldrb	r3, [r3]
+  53 0016 002B     		cmp	r3, #0
+  54 0018 1FD1     		bne	.L2
+  25:.\main.c      ****     {
+  26:.\main.c      ****         if (direction == forward)
+  55              		.loc 1 26 0
+  56 001a 7B1D     		add	r3, r7, #5
+  57 001c 1B78     		ldrb	r3, [r3]
+  58 001e 002B     		cmp	r3, #0
+  59 0020 0BD1     		bne	.L3
+  27:.\main.c      ****         {
+  28:.\main.c      ****             Pin_1_0_Write(0xFF);
+  60              		.loc 1 28 0
+  61 0022 FF20     		mov	r0, #255
+  62 0024 FFF7FEFF 		bl	Pin_1_0_Write
+  29:.\main.c      ****             Pin_1_1_Write(0x00);
+  63              		.loc 1 29 0
+  64 0028 0020     		mov	r0, #0
+  65 002a FFF7FEFF 		bl	Pin_1_1_Write
+  30:.\main.c      ****             PWM_1_WriteCompare(input_value);
+  66              		.loc 1 30 0
+  67 002e BB1D     		add	r3, r7, #6
+  68 0030 1B78     		ldrb	r3, [r3]
+  69 0032 181C     		mov	r0, r3
+  70 0034 FFF7FEFF 		bl	PWM_1_WriteCompare
+  71 0038 32E0     		b	.L1
+  72              	.L3:
+  31:.\main.c      **** 
+  32:.\main.c      ****         }
+  33:.\main.c      ****         else if (direction == backward)
+  73              		.loc 1 33 0
+  74 003a 7B1D     		add	r3, r7, #5
+  75 003c 1B78     		ldrb	r3, [r3]
+  76 003e 012B     		cmp	r3, #1
+  77 0040 2ED1     		bne	.L1
+  34:.\main.c      ****         {
+  35:.\main.c      ****             Pin_1_0_Write(0x00);
+  78              		.loc 1 35 0
+  79 0042 0020     		mov	r0, #0
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 3
+
+
+  80 0044 FFF7FEFF 		bl	Pin_1_0_Write
+  36:.\main.c      ****             Pin_1_1_Write(0xFF);
+  81              		.loc 1 36 0
+  82 0048 FF20     		mov	r0, #255
+  83 004a FFF7FEFF 		bl	Pin_1_1_Write
+  37:.\main.c      ****             PWM_1_WriteCompare(input_value);
+  84              		.loc 1 37 0
+  85 004e BB1D     		add	r3, r7, #6
+  86 0050 1B78     		ldrb	r3, [r3]
+  87 0052 181C     		mov	r0, r3
+  88 0054 FFF7FEFF 		bl	PWM_1_WriteCompare
+  89 0058 22E0     		b	.L1
+  90              	.L2:
+  38:.\main.c      ****         }
+  39:.\main.c      ****     }
+  40:.\main.c      ****     else if (motor == right)
+  91              		.loc 1 40 0
+  92 005a FB1D     		add	r3, r7, #7
+  93 005c 1B78     		ldrb	r3, [r3]
+  94 005e 012B     		cmp	r3, #1
+  95 0060 1ED1     		bne	.L1
+  41:.\main.c      ****     {
+  42:.\main.c      ****         if (direction == forward)
+  96              		.loc 1 42 0
+  97 0062 7B1D     		add	r3, r7, #5
+  98 0064 1B78     		ldrb	r3, [r3]
+  99 0066 002B     		cmp	r3, #0
+ 100 0068 0BD1     		bne	.L6
+  43:.\main.c      ****         {
+  44:.\main.c      ****             Pin_0_6_Write(0xFF);
+ 101              		.loc 1 44 0
+ 102 006a FF20     		mov	r0, #255
+ 103 006c FFF7FEFF 		bl	Pin_0_6_Write
+  45:.\main.c      ****             Pin_0_5_Write(0x00);
+ 104              		.loc 1 45 0
+ 105 0070 0020     		mov	r0, #0
+ 106 0072 FFF7FEFF 		bl	Pin_0_5_Write
+  46:.\main.c      ****             PWM_2_WriteCompare(input_value);
+ 107              		.loc 1 46 0
+ 108 0076 BB1D     		add	r3, r7, #6
+ 109 0078 1B78     		ldrb	r3, [r3]
+ 110 007a 181C     		mov	r0, r3
+ 111 007c FFF7FEFF 		bl	PWM_2_WriteCompare
+ 112 0080 0EE0     		b	.L1
+ 113              	.L6:
+  47:.\main.c      ****         }
+  48:.\main.c      ****         else if (direction == backward)
+ 114              		.loc 1 48 0
+ 115 0082 7B1D     		add	r3, r7, #5
+ 116 0084 1B78     		ldrb	r3, [r3]
+ 117 0086 012B     		cmp	r3, #1
+ 118 0088 0AD1     		bne	.L1
+  49:.\main.c      ****         {
+  50:.\main.c      ****             Pin_0_6_Write(0x00);
+ 119              		.loc 1 50 0
+ 120 008a 0020     		mov	r0, #0
+ 121 008c FFF7FEFF 		bl	Pin_0_6_Write
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 4
+
+
+  51:.\main.c      ****             Pin_0_5_Write(0xFF);
+ 122              		.loc 1 51 0
+ 123 0090 FF20     		mov	r0, #255
+ 124 0092 FFF7FEFF 		bl	Pin_0_5_Write
+  52:.\main.c      ****             PWM_2_WriteCompare(input_value);
+ 125              		.loc 1 52 0
+ 126 0096 BB1D     		add	r3, r7, #6
+ 127 0098 1B78     		ldrb	r3, [r3]
+ 128 009a 181C     		mov	r0, r3
+ 129 009c FFF7FEFF 		bl	PWM_2_WriteCompare
+ 130              	.L1:
+  53:.\main.c      ****         }
+  54:.\main.c      ****     }
+  55:.\main.c      **** }
+ 131              		.loc 1 55 0
+ 132 00a0 BD46     		mov	sp, r7
+ 133 00a2 02B0     		add	sp, sp, #8
+ 134              		@ sp needed
+ 135 00a4 80BD     		pop	{r7, pc}
+ 136              		.cfi_endproc
+ 137              	.LFE33:
+ 138              		.size	run_motor, .-run_motor
+ 139 00a6 C046     		.section	.text.main,"ax",%progbits
+ 140              		.align	2
+ 141              		.global	main
+ 142              		.code	16
+ 143              		.thumb_func
+ 144              		.type	main, %function
+ 145              	main:
+ 146              	.LFB34:
+  56:.\main.c      **** 
+  57:.\main.c      **** 
+  58:.\main.c      **** 
+  59:.\main.c      **** 
+  60:.\main.c      **** int main()
+  61:.\main.c      **** {
+ 147              		.loc 1 61 0
+ 148              		.cfi_startproc
+ 149 0000 80B5     		push	{r7, lr}
+ 150              		.cfi_def_cfa_offset 8
+ 151              		.cfi_offset 7, -8
+ 152              		.cfi_offset 14, -4
+ 153 0002 82B0     		sub	sp, sp, #8
+ 154              		.cfi_def_cfa_offset 16
+ 155 0004 00AF     		add	r7, sp, #0
+ 156              		.cfi_def_cfa_register 7
+  62:.\main.c      ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  63:.\main.c      ****     //uint8 uart_rx;
+  64:.\main.c      ****     uint8 motor_value;
+  65:.\main.c      ****     //char8 buffer[15];
+  66:.\main.c      **** 
+  67:.\main.c      ****     CyGlobalIntEnable;
+ 157              		.loc 1 67 0
+ 158              	@ 67 ".\main.c" 1
+ 159 0006 62B6     		CPSIE   i
+ 160              	@ 0 "" 2
+  68:.\main.c      ****     PWM_1_Start();
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 5
+
+
+ 161              		.loc 1 68 0
+ 162              		.code	16
+ 163 0008 FFF7FEFF 		bl	PWM_1_Start
+  69:.\main.c      ****     PWM_2_Start();
+ 164              		.loc 1 69 0
+ 165 000c FFF7FEFF 		bl	PWM_2_Start
+  70:.\main.c      ****     UART_1_Start();
+ 166              		.loc 1 70 0
+ 167 0010 FFF7FEFF 		bl	UART_1_Start
+  71:.\main.c      ****     Timer_CH1_Start();
+ 168              		.loc 1 71 0
+ 169 0014 FFF7FEFF 		bl	Timer_CH1_Start
+  72:.\main.c      ****     Timer_CH2_Start();
+ 170              		.loc 1 72 0
+ 171 0018 FFF7FEFF 		bl	Timer_CH2_Start
+  73:.\main.c      ****     isr_CH1_Start();
+ 172              		.loc 1 73 0
+ 173 001c FFF7FEFF 		bl	isr_CH1_Start
+  74:.\main.c      ****     isr_CH2_Start();
+ 174              		.loc 1 74 0
+ 175 0020 FFF7FEFF 		bl	isr_CH2_Start
+ 176              	.L19:
+  75:.\main.c      ****     
+  76:.\main.c      ****     for(;;)
+  77:.\main.c      ****     {
+  78:.\main.c      ****         
+  79:.\main.c      ****         /* Place your application code here. */
+  80:.\main.c      ****                 
+  81:.\main.c      ****         //LEFT MOTOR --- CH1
+  82:.\main.c      ****         if (chanel_value[one] <1490 && chanel_value[one] >1000)
+ 177              		.loc 1 82 0
+ 178 0024 464B     		ldr	r3, .L20
+ 179 0026 1A88     		ldrh	r2, [r3]
+ 180 0028 464B     		ldr	r3, .L20+4
+ 181 002a 9A42     		cmp	r2, r3
+ 182 002c 17D8     		bhi	.L8
+ 183              		.loc 1 82 0 is_stmt 0 discriminator 1
+ 184 002e 444B     		ldr	r3, .L20
+ 185 0030 1A88     		ldrh	r2, [r3]
+ 186 0032 FA23     		mov	r3, #250
+ 187 0034 9B00     		lsl	r3, r3, #2
+ 188 0036 9A42     		cmp	r2, r3
+ 189 0038 11D9     		bls	.L8
+  83:.\main.c      ****         {
+  84:.\main.c      ****             motor_value = (1500 - chanel_value[one]) / 2; 
+ 190              		.loc 1 84 0 is_stmt 1
+ 191 003a 414B     		ldr	r3, .L20
+ 192 003c 1B88     		ldrh	r3, [r3]
+ 193 003e 424A     		ldr	r2, .L20+8
+ 194 0040 D31A     		sub	r3, r2, r3
+ 195 0042 00D5     		bpl	.L9
+ 196 0044 0133     		add	r3, r3, #1
+ 197              	.L9:
+ 198 0046 5B10     		asr	r3, r3, #1
+ 199 0048 1A1C     		mov	r2, r3
+ 200 004a FB1D     		add	r3, r7, #7
+ 201 004c 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 6
+
+
+  85:.\main.c      ****             run_motor(left, motor_value, backward);
+ 202              		.loc 1 85 0
+ 203 004e FB1D     		add	r3, r7, #7
+ 204 0050 1B78     		ldrb	r3, [r3]
+ 205 0052 0020     		mov	r0, #0
+ 206 0054 191C     		mov	r1, r3
+ 207 0056 0122     		mov	r2, #1
+ 208 0058 FFF7FEFF 		bl	run_motor
+ 209 005c 21E0     		b	.L10
+ 210              	.L8:
+  86:.\main.c      ****             //sprintf(buffer,"CH1 backward %d ", motor_value);
+  87:.\main.c      ****             //UART_1_UartPutString(buffer);
+  88:.\main.c      ****         }
+  89:.\main.c      ****         else if (chanel_value[one] >1510 && chanel_value[one] <2000)
+ 211              		.loc 1 89 0
+ 212 005e 384B     		ldr	r3, .L20
+ 213 0060 1A88     		ldrh	r2, [r3]
+ 214 0062 3A4B     		ldr	r3, .L20+12
+ 215 0064 9A42     		cmp	r2, r3
+ 216 0066 17D9     		bls	.L11
+ 217              		.loc 1 89 0 is_stmt 0 discriminator 1
+ 218 0068 354B     		ldr	r3, .L20
+ 219 006a 1A88     		ldrh	r2, [r3]
+ 220 006c 384B     		ldr	r3, .L20+16
+ 221 006e 9A42     		cmp	r2, r3
+ 222 0070 12D8     		bhi	.L11
+  90:.\main.c      ****         {
+  91:.\main.c      ****             motor_value = (chanel_value[one] - 1500) / 2; 
+ 223              		.loc 1 91 0 is_stmt 1
+ 224 0072 334B     		ldr	r3, .L20
+ 225 0074 1B88     		ldrh	r3, [r3]
+ 226 0076 374A     		ldr	r2, .L20+20
+ 227 0078 9B18     		add	r3, r3, r2
+ 228 007a 002B     		cmp	r3, #0
+ 229 007c 00DA     		bge	.L12
+ 230 007e 0133     		add	r3, r3, #1
+ 231              	.L12:
+ 232 0080 5B10     		asr	r3, r3, #1
+ 233 0082 1A1C     		mov	r2, r3
+ 234 0084 FB1D     		add	r3, r7, #7
+ 235 0086 1A70     		strb	r2, [r3]
+  92:.\main.c      ****             run_motor(left, motor_value, forward);
+ 236              		.loc 1 92 0
+ 237 0088 FB1D     		add	r3, r7, #7
+ 238 008a 1B78     		ldrb	r3, [r3]
+ 239 008c 0020     		mov	r0, #0
+ 240 008e 191C     		mov	r1, r3
+ 241 0090 0022     		mov	r2, #0
+ 242 0092 FFF7FEFF 		bl	run_motor
+ 243 0096 04E0     		b	.L10
+ 244              	.L11:
+  93:.\main.c      ****             //sprintf(buffer,"CH1 forward %d ", motor_value);
+  94:.\main.c      ****             //UART_1_UartPutString(buffer);
+  95:.\main.c      ****         }
+  96:.\main.c      ****         else
+  97:.\main.c      ****         {
+  98:.\main.c      ****             run_motor(left, 0, forward);
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 7
+
+
+ 245              		.loc 1 98 0
+ 246 0098 0020     		mov	r0, #0
+ 247 009a 0021     		mov	r1, #0
+ 248 009c 0022     		mov	r2, #0
+ 249 009e FFF7FEFF 		bl	run_motor
+ 250              	.L10:
+  99:.\main.c      ****         }
+ 100:.\main.c      ****         
+ 101:.\main.c      ****         CyDelay(5);
+ 251              		.loc 1 101 0
+ 252 00a2 0520     		mov	r0, #5
+ 253 00a4 FFF7FEFF 		bl	CyDelay
+ 102:.\main.c      ****         
+ 103:.\main.c      ****         //RIGHT MOTOR --- CH2      
+ 104:.\main.c      ****         if (chanel_value[two] <1490 && chanel_value[two] >1000)
+ 254              		.loc 1 104 0
+ 255 00a8 254B     		ldr	r3, .L20
+ 256 00aa 5A88     		ldrh	r2, [r3, #2]
+ 257 00ac 254B     		ldr	r3, .L20+4
+ 258 00ae 9A42     		cmp	r2, r3
+ 259 00b0 17D8     		bhi	.L13
+ 260              		.loc 1 104 0 is_stmt 0 discriminator 1
+ 261 00b2 234B     		ldr	r3, .L20
+ 262 00b4 5A88     		ldrh	r2, [r3, #2]
+ 263 00b6 FA23     		mov	r3, #250
+ 264 00b8 9B00     		lsl	r3, r3, #2
+ 265 00ba 9A42     		cmp	r2, r3
+ 266 00bc 11D9     		bls	.L13
+ 105:.\main.c      ****         {
+ 106:.\main.c      ****             motor_value = (1500 - chanel_value[two]) / 2; 
+ 267              		.loc 1 106 0 is_stmt 1
+ 268 00be 204B     		ldr	r3, .L20
+ 269 00c0 5B88     		ldrh	r3, [r3, #2]
+ 270 00c2 214A     		ldr	r2, .L20+8
+ 271 00c4 D31A     		sub	r3, r2, r3
+ 272 00c6 00D5     		bpl	.L14
+ 273 00c8 0133     		add	r3, r3, #1
+ 274              	.L14:
+ 275 00ca 5B10     		asr	r3, r3, #1
+ 276 00cc 1A1C     		mov	r2, r3
+ 277 00ce FB1D     		add	r3, r7, #7
+ 278 00d0 1A70     		strb	r2, [r3]
+ 107:.\main.c      ****             run_motor(right, motor_value, backward);
+ 279              		.loc 1 107 0
+ 280 00d2 FB1D     		add	r3, r7, #7
+ 281 00d4 1B78     		ldrb	r3, [r3]
+ 282 00d6 0120     		mov	r0, #1
+ 283 00d8 191C     		mov	r1, r3
+ 284 00da 0122     		mov	r2, #1
+ 285 00dc FFF7FEFF 		bl	run_motor
+ 286 00e0 21E0     		b	.L15
+ 287              	.L13:
+ 108:.\main.c      ****         }
+ 109:.\main.c      ****         else if (chanel_value[two] >1510 && chanel_value[two] <2000)
+ 288              		.loc 1 109 0
+ 289 00e2 174B     		ldr	r3, .L20
+ 290 00e4 5A88     		ldrh	r2, [r3, #2]
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 8
+
+
+ 291 00e6 194B     		ldr	r3, .L20+12
+ 292 00e8 9A42     		cmp	r2, r3
+ 293 00ea 17D9     		bls	.L16
+ 294              		.loc 1 109 0 is_stmt 0 discriminator 1
+ 295 00ec 144B     		ldr	r3, .L20
+ 296 00ee 5A88     		ldrh	r2, [r3, #2]
+ 297 00f0 174B     		ldr	r3, .L20+16
+ 298 00f2 9A42     		cmp	r2, r3
+ 299 00f4 12D8     		bhi	.L16
+ 110:.\main.c      ****         {
+ 111:.\main.c      ****             motor_value = (chanel_value[two] - 1500) / 2; 
+ 300              		.loc 1 111 0 is_stmt 1
+ 301 00f6 124B     		ldr	r3, .L20
+ 302 00f8 5B88     		ldrh	r3, [r3, #2]
+ 303 00fa 164A     		ldr	r2, .L20+20
+ 304 00fc 9B18     		add	r3, r3, r2
+ 305 00fe 002B     		cmp	r3, #0
+ 306 0100 00DA     		bge	.L17
+ 307 0102 0133     		add	r3, r3, #1
+ 308              	.L17:
+ 309 0104 5B10     		asr	r3, r3, #1
+ 310 0106 1A1C     		mov	r2, r3
+ 311 0108 FB1D     		add	r3, r7, #7
+ 312 010a 1A70     		strb	r2, [r3]
+ 112:.\main.c      ****             run_motor(right, motor_value, forward);
+ 313              		.loc 1 112 0
+ 314 010c FB1D     		add	r3, r7, #7
+ 315 010e 1B78     		ldrb	r3, [r3]
+ 316 0110 0120     		mov	r0, #1
+ 317 0112 191C     		mov	r1, r3
+ 318 0114 0022     		mov	r2, #0
+ 319 0116 FFF7FEFF 		bl	run_motor
+ 320 011a 04E0     		b	.L15
+ 321              	.L16:
+ 113:.\main.c      ****         }
+ 114:.\main.c      ****         else
+ 115:.\main.c      ****         {
+ 116:.\main.c      ****             run_motor(right, 0, forward);
+ 322              		.loc 1 116 0
+ 323 011c 0120     		mov	r0, #1
+ 324 011e 0021     		mov	r1, #0
+ 325 0120 0022     		mov	r2, #0
+ 326 0122 FFF7FEFF 		bl	run_motor
+ 327              	.L15:
+ 117:.\main.c      ****         }
+ 118:.\main.c      ****         
+ 119:.\main.c      ****         CyDelay(5);
+ 328              		.loc 1 119 0
+ 329 0126 0520     		mov	r0, #5
+ 330 0128 FFF7FEFF 		bl	CyDelay
+ 120:.\main.c      ****         
+ 121:.\main.c      ****         if (pin_button_Read() == 0u)
+ 331              		.loc 1 121 0
+ 332 012c FFF7FEFF 		bl	pin_button_Read
+ 333 0130 031C     		mov	r3, r0
+ 334 0132 002B     		cmp	r3, #0
+ 335 0134 02D1     		bne	.L18
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 9
+
+
+ 122:.\main.c      ****         {
+ 123:.\main.c      ****             Bootloadable_1_Load();
+ 336              		.loc 1 123 0
+ 337 0136 FFF7FEFF 		bl	Bootloadable_1_Load
+ 124:.\main.c      ****         }
+ 125:.\main.c      ****     }
+ 338              		.loc 1 125 0
+ 339 013a 73E7     		b	.L19
+ 340              	.L18:
+ 341 013c 72E7     		b	.L19
+ 342              	.L21:
+ 343 013e C046     		.align	2
+ 344              	.L20:
+ 345 0140 00000000 		.word	chanel_value
+ 346 0144 D1050000 		.word	1489
+ 347 0148 DC050000 		.word	1500
+ 348 014c E6050000 		.word	1510
+ 349 0150 CF070000 		.word	1999
+ 350 0154 24FAFFFF 		.word	-1500
+ 351              		.cfi_endproc
+ 352              	.LFE34:
+ 353              		.size	main, .-main
+ 354              		.text
+ 355              	.Letext0:
+ 356              		.file 2 ".\\Generated_Source\\PSoC4/cytypes.h"
+ 357              		.section	.debug_info,"",%progbits
+ 358              	.Ldebug_info0:
+ 359 0000 6E010000 		.4byte	0x16e
+ 360 0004 0400     		.2byte	0x4
+ 361 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 362 000a 04       		.byte	0x4
+ 363 000b 01       		.uleb128 0x1
+ 364 000c 28000000 		.4byte	.LASF25
+ 365 0010 01       		.byte	0x1
+ 366 0011 CF000000 		.4byte	.LASF26
+ 367 0015 54010000 		.4byte	.LASF27
+ 368 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 369 001d 00000000 		.4byte	0
+ 370 0021 00000000 		.4byte	.Ldebug_line0
+ 371 0025 02       		.uleb128 0x2
+ 372 0026 01       		.byte	0x1
+ 373 0027 06       		.byte	0x6
+ 374 0028 B4010000 		.4byte	.LASF0
+ 375 002c 02       		.uleb128 0x2
+ 376 002d 01       		.byte	0x1
+ 377 002e 08       		.byte	0x8
+ 378 002f A4000000 		.4byte	.LASF1
+ 379 0033 02       		.uleb128 0x2
+ 380 0034 02       		.byte	0x2
+ 381 0035 05       		.byte	0x5
+ 382 0036 7D010000 		.4byte	.LASF2
+ 383 003a 02       		.uleb128 0x2
+ 384 003b 02       		.byte	0x2
+ 385 003c 07       		.byte	0x7
+ 386 003d 05000000 		.4byte	.LASF3
+ 387 0041 02       		.uleb128 0x2
+ 388 0042 04       		.byte	0x4
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 10
+
+
+ 389 0043 05       		.byte	0x5
+ 390 0044 96010000 		.4byte	.LASF4
+ 391 0048 02       		.uleb128 0x2
+ 392 0049 04       		.byte	0x4
+ 393 004a 07       		.byte	0x7
+ 394 004b F0000000 		.4byte	.LASF5
+ 395 004f 02       		.uleb128 0x2
+ 396 0050 08       		.byte	0x8
+ 397 0051 05       		.byte	0x5
+ 398 0052 41010000 		.4byte	.LASF6
+ 399 0056 02       		.uleb128 0x2
+ 400 0057 08       		.byte	0x8
+ 401 0058 07       		.byte	0x7
+ 402 0059 1B010000 		.4byte	.LASF7
+ 403 005d 03       		.uleb128 0x3
+ 404 005e 04       		.byte	0x4
+ 405 005f 05       		.byte	0x5
+ 406 0060 696E7400 		.ascii	"int\000"
+ 407 0064 02       		.uleb128 0x2
+ 408 0065 04       		.byte	0x4
+ 409 0066 07       		.byte	0x7
+ 410 0067 02010000 		.4byte	.LASF8
+ 411 006b 04       		.uleb128 0x4
+ 412 006c B8000000 		.4byte	.LASF9
+ 413 0070 02       		.byte	0x2
+ 414 0071 A1       		.byte	0xa1
+ 415 0072 2C000000 		.4byte	0x2c
+ 416 0076 04       		.uleb128 0x4
+ 417 0077 D8000000 		.4byte	.LASF10
+ 418 007b 02       		.byte	0x2
+ 419 007c A2       		.byte	0xa2
+ 420 007d 3A000000 		.4byte	0x3a
+ 421 0081 02       		.uleb128 0x2
+ 422 0082 04       		.byte	0x4
+ 423 0083 04       		.byte	0x4
+ 424 0084 22000000 		.4byte	.LASF11
+ 425 0088 02       		.uleb128 0x2
+ 426 0089 08       		.byte	0x8
+ 427 008a 04       		.byte	0x4
+ 428 008b C8000000 		.4byte	.LASF12
+ 429 008f 02       		.uleb128 0x2
+ 430 0090 01       		.byte	0x1
+ 431 0091 08       		.byte	0x8
+ 432 0092 4F010000 		.4byte	.LASF13
+ 433 0096 02       		.uleb128 0x2
+ 434 0097 04       		.byte	0x4
+ 435 0098 07       		.byte	0x7
+ 436 0099 38010000 		.4byte	.LASF14
+ 437 009d 05       		.uleb128 0x5
+ 438 009e 64697200 		.ascii	"dir\000"
+ 439 00a2 01       		.byte	0x1
+ 440 00a3 01       		.byte	0x1
+ 441 00a4 0F       		.byte	0xf
+ 442 00a5 B6000000 		.4byte	0xb6
+ 443 00a9 06       		.uleb128 0x6
+ 444 00aa AC010000 		.4byte	.LASF15
+ 445 00ae 00       		.sleb128 0
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 11
+
+
+ 446 00af 06       		.uleb128 0x6
+ 447 00b0 87010000 		.4byte	.LASF16
+ 448 00b4 01       		.sleb128 1
+ 449 00b5 00       		.byte	0
+ 450 00b6 05       		.uleb128 0x5
+ 451 00b7 6D6F7400 		.ascii	"mot\000"
+ 452 00bb 01       		.byte	0x1
+ 453 00bc 01       		.byte	0x1
+ 454 00bd 10       		.byte	0x10
+ 455 00be CF000000 		.4byte	0xcf
+ 456 00c2 06       		.uleb128 0x6
+ 457 00c3 00000000 		.4byte	.LASF17
+ 458 00c7 00       		.sleb128 0
+ 459 00c8 06       		.uleb128 0x6
+ 460 00c9 B2000000 		.4byte	.LASF18
+ 461 00cd 01       		.sleb128 1
+ 462 00ce 00       		.byte	0
+ 463 00cf 07       		.uleb128 0x7
+ 464 00d0 90010000 		.4byte	.LASF19
+ 465 00d4 01       		.byte	0x1
+ 466 00d5 01       		.byte	0x1
+ 467 00d6 11       		.byte	0x11
+ 468 00d7 E8000000 		.4byte	0xe8
+ 469 00db 08       		.uleb128 0x8
+ 470 00dc 6F6E6500 		.ascii	"one\000"
+ 471 00e0 00       		.sleb128 0
+ 472 00e1 08       		.uleb128 0x8
+ 473 00e2 74776F00 		.ascii	"two\000"
+ 474 00e6 01       		.sleb128 1
+ 475 00e7 00       		.byte	0
+ 476 00e8 09       		.uleb128 0x9
+ 477 00e9 BE000000 		.4byte	.LASF23
+ 478 00ed 01       		.byte	0x1
+ 479 00ee 16       		.byte	0x16
+ 480 00ef 00000000 		.4byte	.LFB33
+ 481 00f3 A6000000 		.4byte	.LFE33-.LFB33
+ 482 00f7 01       		.uleb128 0x1
+ 483 00f8 9C       		.byte	0x9c
+ 484 00f9 28010000 		.4byte	0x128
+ 485 00fd 0A       		.uleb128 0xa
+ 486 00fe 32010000 		.4byte	.LASF20
+ 487 0102 01       		.byte	0x1
+ 488 0103 16       		.byte	0x16
+ 489 0104 6B000000 		.4byte	0x6b
+ 490 0108 02       		.uleb128 0x2
+ 491 0109 91       		.byte	0x91
+ 492 010a 77       		.sleb128 -9
+ 493 010b 0A       		.uleb128 0xa
+ 494 010c DF000000 		.4byte	.LASF21
+ 495 0110 01       		.byte	0x1
+ 496 0111 16       		.byte	0x16
+ 497 0112 6B000000 		.4byte	0x6b
+ 498 0116 02       		.uleb128 0x2
+ 499 0117 91       		.byte	0x91
+ 500 0118 76       		.sleb128 -10
+ 501 0119 0A       		.uleb128 0xa
+ 502 011a 18000000 		.4byte	.LASF22
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 12
+
+
+ 503 011e 01       		.byte	0x1
+ 504 011f 16       		.byte	0x16
+ 505 0120 6B000000 		.4byte	0x6b
+ 506 0124 02       		.uleb128 0x2
+ 507 0125 91       		.byte	0x91
+ 508 0126 75       		.sleb128 -11
+ 509 0127 00       		.byte	0
+ 510 0128 0B       		.uleb128 0xb
+ 511 0129 EB000000 		.4byte	.LASF24
+ 512 012d 01       		.byte	0x1
+ 513 012e 3C       		.byte	0x3c
+ 514 012f 5D000000 		.4byte	0x5d
+ 515 0133 00000000 		.4byte	.LFB34
+ 516 0137 58010000 		.4byte	.LFE34-.LFB34
+ 517 013b 01       		.uleb128 0x1
+ 518 013c 9C       		.byte	0x9c
+ 519 013d 50010000 		.4byte	0x150
+ 520 0141 0C       		.uleb128 0xc
+ 521 0142 0F010000 		.4byte	.LASF28
+ 522 0146 01       		.byte	0x1
+ 523 0147 40       		.byte	0x40
+ 524 0148 6B000000 		.4byte	0x6b
+ 525 014c 02       		.uleb128 0x2
+ 526 014d 91       		.byte	0x91
+ 527 014e 77       		.sleb128 -9
+ 528 014f 00       		.byte	0
+ 529 0150 0D       		.uleb128 0xd
+ 530 0151 76000000 		.4byte	0x76
+ 531 0155 60010000 		.4byte	0x160
+ 532 0159 0E       		.uleb128 0xe
+ 533 015a 96000000 		.4byte	0x96
+ 534 015e 01       		.byte	0x1
+ 535 015f 00       		.byte	0
+ 536 0160 0F       		.uleb128 0xf
+ 537 0161 9F010000 		.4byte	.LASF29
+ 538 0165 01       		.byte	0x1
+ 539 0166 13       		.byte	0x13
+ 540 0167 50010000 		.4byte	0x150
+ 541 016b 05       		.uleb128 0x5
+ 542 016c 03       		.byte	0x3
+ 543 016d 00000000 		.4byte	chanel_value
+ 544 0171 00       		.byte	0
+ 545              		.section	.debug_abbrev,"",%progbits
+ 546              	.Ldebug_abbrev0:
+ 547 0000 01       		.uleb128 0x1
+ 548 0001 11       		.uleb128 0x11
+ 549 0002 01       		.byte	0x1
+ 550 0003 25       		.uleb128 0x25
+ 551 0004 0E       		.uleb128 0xe
+ 552 0005 13       		.uleb128 0x13
+ 553 0006 0B       		.uleb128 0xb
+ 554 0007 03       		.uleb128 0x3
+ 555 0008 0E       		.uleb128 0xe
+ 556 0009 1B       		.uleb128 0x1b
+ 557 000a 0E       		.uleb128 0xe
+ 558 000b 55       		.uleb128 0x55
+ 559 000c 17       		.uleb128 0x17
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 13
+
+
+ 560 000d 11       		.uleb128 0x11
+ 561 000e 01       		.uleb128 0x1
+ 562 000f 10       		.uleb128 0x10
+ 563 0010 17       		.uleb128 0x17
+ 564 0011 00       		.byte	0
+ 565 0012 00       		.byte	0
+ 566 0013 02       		.uleb128 0x2
+ 567 0014 24       		.uleb128 0x24
+ 568 0015 00       		.byte	0
+ 569 0016 0B       		.uleb128 0xb
+ 570 0017 0B       		.uleb128 0xb
+ 571 0018 3E       		.uleb128 0x3e
+ 572 0019 0B       		.uleb128 0xb
+ 573 001a 03       		.uleb128 0x3
+ 574 001b 0E       		.uleb128 0xe
+ 575 001c 00       		.byte	0
+ 576 001d 00       		.byte	0
+ 577 001e 03       		.uleb128 0x3
+ 578 001f 24       		.uleb128 0x24
+ 579 0020 00       		.byte	0
+ 580 0021 0B       		.uleb128 0xb
+ 581 0022 0B       		.uleb128 0xb
+ 582 0023 3E       		.uleb128 0x3e
+ 583 0024 0B       		.uleb128 0xb
+ 584 0025 03       		.uleb128 0x3
+ 585 0026 08       		.uleb128 0x8
+ 586 0027 00       		.byte	0
+ 587 0028 00       		.byte	0
+ 588 0029 04       		.uleb128 0x4
+ 589 002a 16       		.uleb128 0x16
+ 590 002b 00       		.byte	0
+ 591 002c 03       		.uleb128 0x3
+ 592 002d 0E       		.uleb128 0xe
+ 593 002e 3A       		.uleb128 0x3a
+ 594 002f 0B       		.uleb128 0xb
+ 595 0030 3B       		.uleb128 0x3b
+ 596 0031 0B       		.uleb128 0xb
+ 597 0032 49       		.uleb128 0x49
+ 598 0033 13       		.uleb128 0x13
+ 599 0034 00       		.byte	0
+ 600 0035 00       		.byte	0
+ 601 0036 05       		.uleb128 0x5
+ 602 0037 04       		.uleb128 0x4
+ 603 0038 01       		.byte	0x1
+ 604 0039 03       		.uleb128 0x3
+ 605 003a 08       		.uleb128 0x8
+ 606 003b 0B       		.uleb128 0xb
+ 607 003c 0B       		.uleb128 0xb
+ 608 003d 3A       		.uleb128 0x3a
+ 609 003e 0B       		.uleb128 0xb
+ 610 003f 3B       		.uleb128 0x3b
+ 611 0040 0B       		.uleb128 0xb
+ 612 0041 01       		.uleb128 0x1
+ 613 0042 13       		.uleb128 0x13
+ 614 0043 00       		.byte	0
+ 615 0044 00       		.byte	0
+ 616 0045 06       		.uleb128 0x6
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 14
+
+
+ 617 0046 28       		.uleb128 0x28
+ 618 0047 00       		.byte	0
+ 619 0048 03       		.uleb128 0x3
+ 620 0049 0E       		.uleb128 0xe
+ 621 004a 1C       		.uleb128 0x1c
+ 622 004b 0D       		.uleb128 0xd
+ 623 004c 00       		.byte	0
+ 624 004d 00       		.byte	0
+ 625 004e 07       		.uleb128 0x7
+ 626 004f 04       		.uleb128 0x4
+ 627 0050 01       		.byte	0x1
+ 628 0051 03       		.uleb128 0x3
+ 629 0052 0E       		.uleb128 0xe
+ 630 0053 0B       		.uleb128 0xb
+ 631 0054 0B       		.uleb128 0xb
+ 632 0055 3A       		.uleb128 0x3a
+ 633 0056 0B       		.uleb128 0xb
+ 634 0057 3B       		.uleb128 0x3b
+ 635 0058 0B       		.uleb128 0xb
+ 636 0059 01       		.uleb128 0x1
+ 637 005a 13       		.uleb128 0x13
+ 638 005b 00       		.byte	0
+ 639 005c 00       		.byte	0
+ 640 005d 08       		.uleb128 0x8
+ 641 005e 28       		.uleb128 0x28
+ 642 005f 00       		.byte	0
+ 643 0060 03       		.uleb128 0x3
+ 644 0061 08       		.uleb128 0x8
+ 645 0062 1C       		.uleb128 0x1c
+ 646 0063 0D       		.uleb128 0xd
+ 647 0064 00       		.byte	0
+ 648 0065 00       		.byte	0
+ 649 0066 09       		.uleb128 0x9
+ 650 0067 2E       		.uleb128 0x2e
+ 651 0068 01       		.byte	0x1
+ 652 0069 3F       		.uleb128 0x3f
+ 653 006a 19       		.uleb128 0x19
+ 654 006b 03       		.uleb128 0x3
+ 655 006c 0E       		.uleb128 0xe
+ 656 006d 3A       		.uleb128 0x3a
+ 657 006e 0B       		.uleb128 0xb
+ 658 006f 3B       		.uleb128 0x3b
+ 659 0070 0B       		.uleb128 0xb
+ 660 0071 27       		.uleb128 0x27
+ 661 0072 19       		.uleb128 0x19
+ 662 0073 11       		.uleb128 0x11
+ 663 0074 01       		.uleb128 0x1
+ 664 0075 12       		.uleb128 0x12
+ 665 0076 06       		.uleb128 0x6
+ 666 0077 40       		.uleb128 0x40
+ 667 0078 18       		.uleb128 0x18
+ 668 0079 9642     		.uleb128 0x2116
+ 669 007b 19       		.uleb128 0x19
+ 670 007c 01       		.uleb128 0x1
+ 671 007d 13       		.uleb128 0x13
+ 672 007e 00       		.byte	0
+ 673 007f 00       		.byte	0
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 15
+
+
+ 674 0080 0A       		.uleb128 0xa
+ 675 0081 05       		.uleb128 0x5
+ 676 0082 00       		.byte	0
+ 677 0083 03       		.uleb128 0x3
+ 678 0084 0E       		.uleb128 0xe
+ 679 0085 3A       		.uleb128 0x3a
+ 680 0086 0B       		.uleb128 0xb
+ 681 0087 3B       		.uleb128 0x3b
+ 682 0088 0B       		.uleb128 0xb
+ 683 0089 49       		.uleb128 0x49
+ 684 008a 13       		.uleb128 0x13
+ 685 008b 02       		.uleb128 0x2
+ 686 008c 18       		.uleb128 0x18
+ 687 008d 00       		.byte	0
+ 688 008e 00       		.byte	0
+ 689 008f 0B       		.uleb128 0xb
+ 690 0090 2E       		.uleb128 0x2e
+ 691 0091 01       		.byte	0x1
+ 692 0092 3F       		.uleb128 0x3f
+ 693 0093 19       		.uleb128 0x19
+ 694 0094 03       		.uleb128 0x3
+ 695 0095 0E       		.uleb128 0xe
+ 696 0096 3A       		.uleb128 0x3a
+ 697 0097 0B       		.uleb128 0xb
+ 698 0098 3B       		.uleb128 0x3b
+ 699 0099 0B       		.uleb128 0xb
+ 700 009a 49       		.uleb128 0x49
+ 701 009b 13       		.uleb128 0x13
+ 702 009c 11       		.uleb128 0x11
+ 703 009d 01       		.uleb128 0x1
+ 704 009e 12       		.uleb128 0x12
+ 705 009f 06       		.uleb128 0x6
+ 706 00a0 40       		.uleb128 0x40
+ 707 00a1 18       		.uleb128 0x18
+ 708 00a2 9642     		.uleb128 0x2116
+ 709 00a4 19       		.uleb128 0x19
+ 710 00a5 01       		.uleb128 0x1
+ 711 00a6 13       		.uleb128 0x13
+ 712 00a7 00       		.byte	0
+ 713 00a8 00       		.byte	0
+ 714 00a9 0C       		.uleb128 0xc
+ 715 00aa 34       		.uleb128 0x34
+ 716 00ab 00       		.byte	0
+ 717 00ac 03       		.uleb128 0x3
+ 718 00ad 0E       		.uleb128 0xe
+ 719 00ae 3A       		.uleb128 0x3a
+ 720 00af 0B       		.uleb128 0xb
+ 721 00b0 3B       		.uleb128 0x3b
+ 722 00b1 0B       		.uleb128 0xb
+ 723 00b2 49       		.uleb128 0x49
+ 724 00b3 13       		.uleb128 0x13
+ 725 00b4 02       		.uleb128 0x2
+ 726 00b5 18       		.uleb128 0x18
+ 727 00b6 00       		.byte	0
+ 728 00b7 00       		.byte	0
+ 729 00b8 0D       		.uleb128 0xd
+ 730 00b9 01       		.uleb128 0x1
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 16
+
+
+ 731 00ba 01       		.byte	0x1
+ 732 00bb 49       		.uleb128 0x49
+ 733 00bc 13       		.uleb128 0x13
+ 734 00bd 01       		.uleb128 0x1
+ 735 00be 13       		.uleb128 0x13
+ 736 00bf 00       		.byte	0
+ 737 00c0 00       		.byte	0
+ 738 00c1 0E       		.uleb128 0xe
+ 739 00c2 21       		.uleb128 0x21
+ 740 00c3 00       		.byte	0
+ 741 00c4 49       		.uleb128 0x49
+ 742 00c5 13       		.uleb128 0x13
+ 743 00c6 2F       		.uleb128 0x2f
+ 744 00c7 0B       		.uleb128 0xb
+ 745 00c8 00       		.byte	0
+ 746 00c9 00       		.byte	0
+ 747 00ca 0F       		.uleb128 0xf
+ 748 00cb 34       		.uleb128 0x34
+ 749 00cc 00       		.byte	0
+ 750 00cd 03       		.uleb128 0x3
+ 751 00ce 0E       		.uleb128 0xe
+ 752 00cf 3A       		.uleb128 0x3a
+ 753 00d0 0B       		.uleb128 0xb
+ 754 00d1 3B       		.uleb128 0x3b
+ 755 00d2 0B       		.uleb128 0xb
+ 756 00d3 49       		.uleb128 0x49
+ 757 00d4 13       		.uleb128 0x13
+ 758 00d5 3F       		.uleb128 0x3f
+ 759 00d6 19       		.uleb128 0x19
+ 760 00d7 02       		.uleb128 0x2
+ 761 00d8 18       		.uleb128 0x18
+ 762 00d9 00       		.byte	0
+ 763 00da 00       		.byte	0
+ 764 00db 00       		.byte	0
+ 765              		.section	.debug_aranges,"",%progbits
+ 766 0000 24000000 		.4byte	0x24
+ 767 0004 0200     		.2byte	0x2
+ 768 0006 00000000 		.4byte	.Ldebug_info0
+ 769 000a 04       		.byte	0x4
+ 770 000b 00       		.byte	0
+ 771 000c 0000     		.2byte	0
+ 772 000e 0000     		.2byte	0
+ 773 0010 00000000 		.4byte	.LFB33
+ 774 0014 A6000000 		.4byte	.LFE33-.LFB33
+ 775 0018 00000000 		.4byte	.LFB34
+ 776 001c 58010000 		.4byte	.LFE34-.LFB34
+ 777 0020 00000000 		.4byte	0
+ 778 0024 00000000 		.4byte	0
+ 779              		.section	.debug_ranges,"",%progbits
+ 780              	.Ldebug_ranges0:
+ 781 0000 00000000 		.4byte	.LFB33
+ 782 0004 A6000000 		.4byte	.LFE33
+ 783 0008 00000000 		.4byte	.LFB34
+ 784 000c 58010000 		.4byte	.LFE34
+ 785 0010 00000000 		.4byte	0
+ 786 0014 00000000 		.4byte	0
+ 787              		.section	.debug_line,"",%progbits
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 17
+
+
+ 788              	.Ldebug_line0:
+ 789 0000 B3000000 		.section	.debug_str,"MS",%progbits,1
+ 789      02004500 
+ 789      00000201 
+ 789      FB0E0D00 
+ 789      01010101 
+ 790              	.LASF17:
+ 791 0000 6C656674 		.ascii	"left\000"
+ 791      00
+ 792              	.LASF3:
+ 793 0005 73686F72 		.ascii	"short unsigned int\000"
+ 793      7420756E 
+ 793      7369676E 
+ 793      65642069 
+ 793      6E7400
+ 794              	.LASF22:
+ 795 0018 64697265 		.ascii	"direction\000"
+ 795      6374696F 
+ 795      6E00
+ 796              	.LASF11:
+ 797 0022 666C6F61 		.ascii	"float\000"
+ 797      7400
+ 798              	.LASF25:
+ 799 0028 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
+ 799      4320342E 
+ 799      382E3420 
+ 799      32303134 
+ 799      30353236 
+ 800 005b 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m0 -mthumb -g -O"
+ 800      20726576 
+ 800      6973696F 
+ 800      6E203231 
+ 800      31333538 
+ 801 008e 30202D66 		.ascii	"0 -ffunction-sections\000"
+ 801      66756E63 
+ 801      74696F6E 
+ 801      2D736563 
+ 801      74696F6E 
+ 802              	.LASF1:
+ 803 00a4 756E7369 		.ascii	"unsigned char\000"
+ 803      676E6564 
+ 803      20636861 
+ 803      7200
+ 804              	.LASF18:
+ 805 00b2 72696768 		.ascii	"right\000"
+ 805      7400
+ 806              	.LASF9:
+ 807 00b8 75696E74 		.ascii	"uint8\000"
+ 807      3800
+ 808              	.LASF23:
+ 809 00be 72756E5F 		.ascii	"run_motor\000"
+ 809      6D6F746F 
+ 809      7200
+ 810              	.LASF12:
+ 811 00c8 646F7562 		.ascii	"double\000"
+ 811      6C6500
+ 812              	.LASF26:
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 18
+
+
+ 813 00cf 2E5C6D61 		.ascii	".\\main.c\000"
+ 813      696E2E63 
+ 813      00
+ 814              	.LASF10:
+ 815 00d8 75696E74 		.ascii	"uint16\000"
+ 815      313600
+ 816              	.LASF21:
+ 817 00df 696E7075 		.ascii	"input_value\000"
+ 817      745F7661 
+ 817      6C756500 
+ 818              	.LASF24:
+ 819 00eb 6D61696E 		.ascii	"main\000"
+ 819      00
+ 820              	.LASF5:
+ 821 00f0 6C6F6E67 		.ascii	"long unsigned int\000"
+ 821      20756E73 
+ 821      69676E65 
+ 821      6420696E 
+ 821      7400
+ 822              	.LASF8:
+ 823 0102 756E7369 		.ascii	"unsigned int\000"
+ 823      676E6564 
+ 823      20696E74 
+ 823      00
+ 824              	.LASF28:
+ 825 010f 6D6F746F 		.ascii	"motor_value\000"
+ 825      725F7661 
+ 825      6C756500 
+ 826              	.LASF7:
+ 827 011b 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 827      206C6F6E 
+ 827      6720756E 
+ 827      7369676E 
+ 827      65642069 
+ 828              	.LASF20:
+ 829 0132 6D6F746F 		.ascii	"motor\000"
+ 829      7200
+ 830              	.LASF14:
+ 831 0138 73697A65 		.ascii	"sizetype\000"
+ 831      74797065 
+ 831      00
+ 832              	.LASF6:
+ 833 0141 6C6F6E67 		.ascii	"long long int\000"
+ 833      206C6F6E 
+ 833      6720696E 
+ 833      7400
+ 834              	.LASF13:
+ 835 014f 63686172 		.ascii	"char\000"
+ 835      00
+ 836              	.LASF27:
+ 837 0154 583A5C44 		.ascii	"X:\\Dokumente\\Ole\\Motor\\Motor\\Motor.cydsn\000"
+ 837      6F6B756D 
+ 837      656E7465 
+ 837      5C4F6C65 
+ 837      5C4D6F74 
+ 838              	.LASF2:
+ 839 017d 73686F72 		.ascii	"short int\000"
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccULOD4p.s 			page 19
+
+
+ 839      7420696E 
+ 839      7400
+ 840              	.LASF16:
+ 841 0187 6261636B 		.ascii	"backward\000"
+ 841      77617264 
+ 841      00
+ 842              	.LASF19:
+ 843 0190 696E6465 		.ascii	"index\000"
+ 843      7800
+ 844              	.LASF4:
+ 845 0196 6C6F6E67 		.ascii	"long int\000"
+ 845      20696E74 
+ 845      00
+ 846              	.LASF29:
+ 847 019f 6368616E 		.ascii	"chanel_value\000"
+ 847      656C5F76 
+ 847      616C7565 
+ 847      00
+ 848              	.LASF15:
+ 849 01ac 666F7277 		.ascii	"forward\000"
+ 849      61726400 
+ 850              	.LASF0:
+ 851 01b4 7369676E 		.ascii	"signed char\000"
+ 851      65642063 
+ 851      68617200 
+ 852              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br

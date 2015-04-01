@@ -1,0 +1,1 @@
+'X:\Dokumente\Ole\Motor\Motor\Motor.cydsn\main.c' -o .o -T C_FILE -I 'X:\Dokumente\Ole\Motor\Motor\Motor.cydsn' -I 'X:\Dokumente\Ole\Motor\Motor\Motor.cydsn\Generated_Source\PSoC4' -f 'X:\Dokumente\Ole\Motor\Motor\Motor.cydsn\CortexM0\ARM_GCC_484\Debug\.deps\C_FILE.d'

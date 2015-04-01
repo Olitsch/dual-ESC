@@ -1,0 +1,5 @@
+X:\Dokumente\Ole\Motor\Motor\Motor.cydsn\Motor.cyprj|d821474b-1766-45e0-afd8-6f50d1c08f8c
+C:\Program Files (x86)\Cypress\PSoC Creator\3.1\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|477b4e21-1f54-4cc2-8e14-a34ac74c4519
+C:\Program Files (x86)\Cypress\PSoC Creator\3.1\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|144002e8-7efa-424e-a167-a0f41617cf88
+C:\Program Files (x86)\Cypress\PSoC Creator\3.1\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|c8bdb39c-753e-47a1-88a2-d5367cf113cb
+C:\Program Files (x86)\Cypress\PSoC Creator\3.1\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|c1c6b986-dac8-4b30-bfc9-9b455eceb647
